@@ -1,5 +1,3 @@
-# Название сценария
+# Создание внешней таблицы в Yandex Managed Service for Greenplum® на базе таблицы из бакета Yandex Object Storage
 
-Описание сценария и инструкция по его применению.
-
-Для практических руководств обязательна ссылка на документацию.
+В [Managed Service for Greenplum®](https://yandex.cloud/ru/docs/managed-greenplum) вы можете создать внешнюю таблицу из таблицы, расположенной в бакете [Object Storage](https://yandex.cloud/ru/docs/storage). При подключении к бакету необходимо передать статический ключ доступа для сервисного аккаунта. Это можно сделать с помощью протокола S3 и конфигурационного файла, хранящегося на HTTP-сервере. Подготовка инфраструктуры для виртуальной машины, Managed Service for Greenplum® и Object Storage через Terraform описана в [практическом руководстве](https://yandex.cloud/ru/docs/managed-greenplum/tutorials/config-server-for-s3), необходимый для настройки конфигурационный файл [greenplum-s3-vm.tf](greenplum-s3-vm.tf) расположен в этом репозитории.
