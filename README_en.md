@@ -1,0 +1,3 @@
+# Creating an external table in Yandex Managed Service for Greenplum® from a Yandex Object Storage bucket table
+
+[Managed Service for Greenplum®](https://yandex.cloud/docs/managed-greenplum) allows you to create an external table from a table residing in an [Object Storage](https://yandex.cloud/docs/storage) bucket. When connecting to a bucket, you need to provide a static access key for the service account. You can do this using the S3 protocol and a configuration file stored on the HTTP server. See this [tutorial](greenplum-s3-vm.tf) to learn how to prepare the infrastructure for a VM, Managed Service for Greenplum®, and Object Storage using Terraform. This repository contains the configuration file you will need: [greenplum-s3-vm.tf](greenplum-s3-vm.tf).
