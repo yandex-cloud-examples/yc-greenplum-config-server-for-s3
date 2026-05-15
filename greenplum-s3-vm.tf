@@ -1,4 +1,4 @@
-# Infrastructure for Yandex Cloud Managed Service for Greenplum® cluster, Ubuntu VM, and Object Storage bucket
+# Infrastructure for Yandex MPP Analytics for PostgreSQL cluster, Virtual Machine in Yandex Compute Cloud, and Yandex Object Storage bucket
 #
 # RU: https://cloud.yandex.ru/docs/managed-greenplum/tutorials/config-server-for-s3
 # EN: https://cloud.yandex.com/en/docs/managed-greenplum/tutorials/config-server-for-s3
@@ -7,7 +7,8 @@
 locals {
   zone_a_v4_cidr_blocks = "10.1.0.0/16" # Set the CIDR block for subnet in the ru-central1-a availability zone.
   folder_id             = ""            # Set your cloud folder ID the same as for the provider.
-  password              = ""            # Set the password for the Greenplum® user.
+  version               = ""            # Set thе version of the Yandex MPP Analytics for PostgreSQL
+  password              = ""            # Set the password for the Yandex MPP Analytics for PostgreSQL user.
   image_id              = ""            # Set a public image ID from https://cloud.yandex.com/en/docs/compute/operations/images-with-pre-installed-software/get-list.
   vm_username           = ""            # Set the username to connect to the routing VM via SSH. For Ubuntu images, the `ubuntu` username is used by default.
   vm_ssh_key_path       = ""            # Set the path to the public SSH public key for the routing VM. Example: "~/.ssh/key.pub".
@@ -15,7 +16,7 @@ locals {
 }
 
 resource "yandex_vpc_network" "mgp_network" {
-  description = "Network for Managed Service for Greenplum®"
+  description = "Network for Yandex MPP Analytics for PostgreSQL"
   name        = "mgp_network"
 }
 
@@ -28,9 +29,9 @@ resource "yandex_vpc_subnet" "subnet-a" {
 }
 
 resource "yandex_vpc_security_group" "mgp_security_group" {
-  description = "Security group for Managed Service for Greenplum®"
+  description = "Security group for Yandex MPP Analytics for PostgreSQL"
   network_id  = yandex_vpc_network.mgp_network.id
-  name        = "Managed Greenplum® security group"
+  name        = "mgp_security_group"
 
   ingress {
     description    = "Allow incoming traffic from members of the same security group"
@@ -50,14 +51,14 @@ resource "yandex_vpc_security_group" "mgp_security_group" {
 }
 
 resource "yandex_mdb_greenplum_cluster" "mgp-cluster" {
-  description        = "Managed Greenplum® cluster"
+  description        = "Yandex MPP Analytics for PostgreSQL cluster"
   name               = "mgp-cluster"
   environment        = "PRODUCTION"
   network_id         = yandex_vpc_network.mgp_network.id
   zone               = "ru-central1-a"
   subnet_id          = yandex_vpc_subnet.subnet-a.id
   assign_public_ip   = true
-  version            = "6.19"
+  version            = local.version
   master_host_count  = 2
   segment_host_count = 2
   segment_in_host    = 1
